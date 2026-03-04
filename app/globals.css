@@ -1,0 +1,174 @@
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: radial-gradient(circle at top, #172033, #090d16 60%);
+  color: #e7ebf5;
+}
+
+.appShell {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.topBar h1 {
+  margin: 0;
+}
+
+.topBar p {
+  margin-top: 8px;
+  color: #a8b2c7;
+}
+
+.layout {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 16px;
+}
+
+.panel {
+  background: #101727;
+  border: 1px solid #26324a;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 10px;
+  color: #b3bfd7;
+}
+
+textarea,
+input,
+select,
+button {
+  width: 100%;
+  margin-top: 6px;
+  border-radius: 10px;
+  border: 1px solid #33425f;
+  background: #0c1220;
+  color: #e7ebf5;
+  padding: 10px;
+}
+
+.row2,
+.row3 {
+  display: grid;
+  gap: 10px;
+}
+
+.row2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.row3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.toggleGroup {
+  display: grid;
+  gap: 8px;
+  align-content: center;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.toggle input {
+  width: auto;
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: linear-gradient(90deg, #4f7dff, #5f5dff);
+  font-weight: 700;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.status {
+  color: #c9d4f3;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #86a2ff;
+}
+
+.cover {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #33425f;
+}
+
+.cta {
+  margin-top: 12px;
+  display: inline-block;
+  color: #90adff;
+}
+
+.history {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+  display: grid;
+  gap: 8px;
+}
+
+.history li {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #2b3853;
+  background: #0c1220;
+  display: grid;
+  gap: 3px;
+}
+
+.history strong {
+  color: #c6d4ff;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.history small {
+  color: #7f90b6;
+}
+
+.history a {
+  color: #9db6ff;
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .row3 {
+    grid-template-columns: 1fr;
+  }
+
+  .row2 {
+    grid-template-columns: 1fr;
+  }
+}
