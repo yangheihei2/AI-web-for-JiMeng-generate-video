@@ -1,8 +1,20 @@
+export type VideoMode = "text-to-video" | "image-to-video";
+
 export type CreateVideoParams = {
   prompt: string;
+  negativePrompt?: string;
   imageUrl?: string;
+  model?: string;
+  mode?: VideoMode;
   durationSeconds?: 5 | 10;
   aspectRatio?: "16:9" | "9:16" | "1:1";
+  camera?: "static" | "pan" | "tilt" | "zoom";
+  motionStrength?: 1 | 2 | 3 | 4 | 5;
+  seed?: number;
+  cfgScale?: number;
+  fps?: 24 | 30;
+  enhancePrompt?: boolean;
+  watermark?: boolean;
 };
 
 export type TaskStatus = "pending" | "running" | "succeeded" | "failed";
@@ -12,7 +24,7 @@ const API_KEY = process.env.JIMENG_API_KEY;
 
 function getHeaders() {
   if (!API_URL || !API_KEY) {
-    throw new Error("JIMENG_API_URL 或 JIMENG_API_KEY 未配置");
+    throw new Error("Missing JIMENG_API_URL or JIMENG_API_KEY");
   }
 
   return {
@@ -26,17 +38,26 @@ export async function createVideoTask(params: CreateVideoParams) {
     method: "POST",
     headers: getHeaders(),
     body: JSON.stringify({
-      model: process.env.JIMENG_MODEL ?? "jimeng-v1",
+      model: params.model ?? process.env.JIMENG_MODEL ?? "jimeng-v1",
+      mode: params.mode ?? "text-to-video",
       prompt: params.prompt,
+      negative_prompt: params.negativePrompt,
       image_url: params.imageUrl,
       duration_seconds: params.durationSeconds ?? 5,
-      aspect_ratio: params.aspectRatio ?? "16:9"
+      aspect_ratio: params.aspectRatio ?? "16:9",
+      camera: params.camera ?? "static",
+      motion_strength: params.motionStrength ?? 3,
+      seed: params.seed,
+      cfg_scale: params.cfgScale ?? 7,
+      fps: params.fps ?? 24,
+      enhance_prompt: params.enhancePrompt ?? true,
+      watermark: params.watermark ?? false
     })
   });
 
   if (!response.ok) {
     const errText = await response.text();
-    throw new Error(`创建任务失败: ${response.status} ${errText}`);
+    throw new Error(`Create task failed: ${response.status} ${errText}`);
   }
 
   return response.json() as Promise<{ task_id: string }>;
@@ -50,13 +71,15 @@ export async function queryVideoTask(taskId: string) {
 
   if (!response.ok) {
     const errText = await response.text();
-    throw new Error(`查询任务失败: ${response.status} ${errText}`);
+    throw new Error(`Query task failed: ${response.status} ${errText}`);
   }
 
   return response.json() as Promise<{
     task_id: string;
     status: TaskStatus;
+    progress?: number;
     video_url?: string;
+    cover_url?: string;
     error_message?: string;
   }>;
 }
